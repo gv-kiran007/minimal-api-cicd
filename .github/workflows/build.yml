@@ -1,0 +1,35 @@
+name: ASP.NET Core CI
+
+on:
+  workflow_dispatch:  # Allows manual triggering of the workflow
+  push:
+    branches:
+      - main  # Trigger on push to main branch
+  pull_request:
+    branches:
+      - main  # Trigger on pull requests to main branch
+
+jobs:
+  build:
+    runs-on: ubuntu-latest  # You can also use 'windows-latest' or 'macos-latest'
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3  # Checkout the repository code
+
+    - name: Setup .NET 8 SDK
+      uses: actions/setup-dotnet@v3
+      with:
+        dotnet-version: '8.0'  # Updated to .NET 8.0
+
+    - name: Restore dependencies
+      run: dotnet restore
+
+    - name: Build the project
+      run: dotnet build --configuration Release
+
+    - name: Run tests
+      run: dotnet test --configuration Release --no-build --verbosity normal
+
+    - name: Publish
+      run: dotnet publish --configuration Release --output ./publish
