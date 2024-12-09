@@ -1,1 +1,1 @@
-# minimal-api-ci-cd
+# dotnet-sample-ci-cd-app

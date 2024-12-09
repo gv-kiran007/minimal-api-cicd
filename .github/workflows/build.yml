@@ -23,13 +23,13 @@ jobs:
         dotnet-version: '8.0.x'  # Updated to .NET 8.0
 
     - name: Restore dependencies
-      run: dotnet restore WeatherApi/WeatherApi.csproj
+      run: dotnet restore
 
     - name: Build the project
-      run: dotnet build WeatherApi/WeatherApi.csproj --configuration Release
+      run: dotnet build --configuration Release
 
-    # - name: Run tests
-    #   run: dotnet test --configuration Release --no-build --verbosity normal
+    - name: Run tests
+      run: dotnet test --configuration Release --no-build --verbosity normal
 
     - name: Publish
-      run: dotnet publish WeatherApi/WeatherApi.csproj --configuration Release --output ./publish
+      run: dotnet publish src/Api/Api.csproj --configuration Release --output ./publish
