@@ -1,0 +1,35 @@
+name: CodeQL Analysis
+
+on:
+  workflow_run:
+    workflows: ["ASP.NET Core CI"]
+    types:
+      - completed
+
+jobs:
+  codeql-scan:
+    runs-on: ubuntu-latest
+
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
+
+    steps:
+      # Checkout code
+      - name: Checkout Code
+        uses: actions/checkout@v3
+
+      # Initialize CodeQL
+      - name: Initialize CodeQL
+        uses: github/codeql-action/init@v2
+        with:
+          languages: dotnet
+
+      # Perform CodeQL Analysis
+      - name: Perform CodeQL Analysis
+        uses: github/codeql-action/analyze@v2
+
+      # Upload CodeQL Report
+      - name: Upload CodeQL Report
+        uses: actions/upload-artifact@v3
+        with:
+          name: codeql-report
+          path: ./.github/codeql  # Adjust path if necessary , or need to push to any dashboard
